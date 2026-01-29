@@ -1,4 +1,7 @@
+
+// Componente de pie de página (Footer) para la aplicación.
 import React from 'react';
+
 
 const Footer = () => {
   return (
@@ -8,4 +11,5 @@ const Footer = () => {
   );
 };
 
+// Exporta el componente Footer
 export default Footer;
