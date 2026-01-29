@@ -1,15 +1,17 @@
-
-// Componente de pie de página (Footer) para la aplicación.
-import React from 'react';
-
+import WeatherInfo from './WeatherInfo';
+import TimeInfo from './TimeInfo';
 
 const Footer = () => {
   return (
-    <footer>
-      {/* Pie de página */}
+    <footer className="footer">
+      <div className="footer-left">
+        <WeatherInfo />
+      </div>
+      <div className="footer-right">
+        <TimeInfo />
+      </div>
     </footer>
   );
 };
 
-// Exporta el componente Footer
 export default Footer;

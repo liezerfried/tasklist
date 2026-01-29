@@ -77,20 +77,20 @@ const TaskList = () => {
     <Card sx={{ width: '100%', maxWidth: 480, margin: '3.5rem auto 0 auto', borderRadius: 3, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h5" align="center" gutterBottom>
-          Lista de Tareas
+          Task List
         </Typography>
         {/* Formulario para agregar tareas */}
         <Box component="form" onSubmit={handleAdd} sx={{ display: 'flex', gap: 2, mb: 3 }}>
           <TextField
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Agregar tarea"
+            placeholder="Add task"
             size="small"
             fullWidth
             variant="outlined"
           />
           <Button type="submit" variant="contained" color="primary">
-            Agregar
+            Add
           </Button>
         </Box>
         {/* Lista de tareas */}
