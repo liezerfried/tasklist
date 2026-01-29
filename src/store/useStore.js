@@ -1,25 +1,38 @@
-import { create } from 'zustand';
 
-export const useStore = create((set) => ({
+// Store global de tareas usando Zustand. Permite agregar, editar, eliminar y alternar tareas.
+import { create } from 'zustand'
+
+export const useTaskStore = create((set) => ({
   tasks: [],
-  addTask: (task) =>
+  // Agrega una nueva tarea
+  addTask: (text) =>
     set((state) => ({
-      tasks: [...state.tasks, task],
+      tasks: [
+        ...state.tasks,
+        { id: Date.now(), text, completed: false }
+      ]
     })),
-  removeTask: (id) =>
-    set((state) => ({
-      tasks: state.tasks.filter((t) => t.id !== id),
-    })),
+  // Alterna el estado completado de una tarea
   toggleTask: (id) =>
     set((state) => ({
-      tasks: state.tasks.map((t) =>
-        t.id === id ? { ...t, completed: !t.completed } : t
-      ),
+      tasks: state.tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
     })),
-      editTask: (id, newData) =>
+  // Elimina una tarea
+  deleteTask: (id) =>
     set((state) => ({
-      tasks: state.tasks.map((t) =>
-        t.id === id ? { ...t, ...newData } : t
-      ),
+      tasks: state.tasks.filter((task) => task.id !== id)
     })),
-}));
+  // Edita el texto de una tarea
+  editTask: (id, newText) =>
+    set((state) => ({
+      tasks: state.tasks.map((task) =>
+        task.id === id ? { ...task, text: newText } : task
+      )
+    })),
+}))
+
+// Selector para obtener solo las tareas no completadas
+export const useVisibleTasks = () =>
+  useTaskStore(state => state.tasks.filter(task => !task.completed));
