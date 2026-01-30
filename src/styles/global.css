@@ -1,3 +1,37 @@
+@media (min-width: 1201px) {
+  .footer {
+    max-width: 900px;
+    padding: 0.5rem 2.5rem;
+    font-size: 1.1rem;
+  }
+  .footer-buttons {
+    gap: 64px;
+  }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  .footer {
+    max-width: 850px;
+    padding: 0.5rem 2rem;
+    font-size: 1.05rem;
+  }
+  .footer-buttons {
+    gap: 48px;
+  }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .footer {
+    max-width: 700px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+  }
+  .footer-buttons {
+    gap: 32px;
+  }
+}
+/*
+  --- ESTILOS BASE ---
+  Estos estilos aplican a todos los dispositivos antes de aplicar media queries.
+*/
 .footer-wrapper {
   width: 100vw;
   display: flex;
@@ -33,9 +67,22 @@
 }
 
 .footer-left,
-.footer-right {
-  flex: 1;
+
+.footer-btn:hover {
+  background: #444;
 }
+
+/*
+  --- MEDIA QUERIES RESPONSIVE ---
+  Las siguientes secciones adaptan el diseño a diferentes resoluciones:
+  - Móviles pequeños: hasta 480px
+  - Móviles estándar: hasta 600px
+  - Tablets: 601px a 900px
+  - Laptops pequeñas: 901px a 1200px
+  - Escritorio: más de 1200px
+*/
+
+/* Móviles estándar y pequeños (hasta 600px) */
 
 .footer-left {
   text-align: left;
@@ -60,9 +107,54 @@
   border-radius: 4px;
   text-decoration: none;
   font-weight: bold;
+
+/* Móviles pequeños (hasta 480px) */
   transition: background 0.2s;
 }
 
 .footer-btn:hover {
   background: #444;
+}
+
+/* --- MEDIA QUERIES RESPONSIVE --- */
+@media (max-width: 600px) {
+  .footer-wrapper {
+
+/* Tablets (601px a 900px) */
+    width: 100vw;
+    margin-left: 0;
+    margin-right: 0;
+    left: 0;
+    right: 0;
+  }
+  .footer {
+    max-width: 100vw;
+    padding: 0.5rem 0.5rem;
+    font-size: 0.95rem;
+
+/* Laptops pequeñas (901px a 1200px) */
+  }
+  .footer-main {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  .footer-buttons {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 0.5rem;
+
+/* Escritorio (>1200px) */
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.2rem;
+  }
+  .footer-btn {
+    padding: 6px 10px;
+    font-size: 0.95rem;
+  }
 }
