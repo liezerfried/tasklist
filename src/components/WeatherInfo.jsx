@@ -11,7 +11,6 @@ const WeatherInfo = () => {
   return (
     <div className="weather-info">
       <span>🌡️ {weather.temperature}°C</span>
-      <span> | {weather.weathercode !== undefined ? `Code: ${weather.weathercode}` : ''}</span>
     </div>
   );
 };
