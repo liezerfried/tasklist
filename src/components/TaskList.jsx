@@ -1,7 +1,7 @@
 
 // Componente principal para mostrar y gestionar la lista de tareas.
 // Permite agregar, editar, eliminar y marcar tareas como completadas.
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { useTaskStore } from '../store/useStore'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -27,26 +27,10 @@ const TaskList = () => {
   const [input, setInput] = useState('')
   const [editingId, setEditingId] = useState(null)
   const [editText, setEditText] = useState('')
-  const [fadingTasks, setFadingTasks] = useState([])
-  const fadeTimeouts = useRef({})
-
-  // Maneja el fade out al marcar el checkbox (elimina la tarea con animación)
-  const handleToggleFade = (id) => {
-    setFadingTasks((prev) => [...prev, id])
-    fadeTimeouts.current[id] = setTimeout(() => {
-      deleteTask(id)
-      setFadingTasks((prev) => prev.filter(tid => tid !== id))
-      clearTimeout(fadeTimeouts.current[id])
-    }, 400)
+  // Marca la tarea como completada (tachada)
+  const handleToggleCompleted = (id) => {
+    store.toggleTask(id)
   }
-
-  // Limpia los timeouts al desmontar el componente
-  React.useEffect(() => {
-    const timeouts = fadeTimeouts.current
-    return () => {
-      Object.values(timeouts).forEach(timeout => clearTimeout(timeout))
-    }
-  }, [])
 
   // Agrega una nueva tarea
   const handleAdd = (e) => {
@@ -76,115 +60,133 @@ const TaskList = () => {
   return (
     <Card sx={{ width: '100%', maxWidth: 480, margin: '3.5rem auto 0 auto', borderRadius: 3, boxShadow: 3 }}>
       <CardContent>
-        <Typography variant="h5" align="center" gutterBottom>
-          Lista de Tareas
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{
+            fontWeight: 'bold',
+            color: 'primary.main',
+            letterSpacing: 2,
+            textShadow: '1px 1px 4px #e0e0e0',
+            mb: 2,
+          }}
+        >
+          Task List
         </Typography>
         {/* Formulario para agregar tareas */}
         <Box component="form" onSubmit={handleAdd} sx={{ display: 'flex', gap: 2, mb: 3 }}>
           <TextField
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Agregar tarea"
+            placeholder="Add task"
             size="small"
             fullWidth
             variant="outlined"
           />
-          <Button type="submit" variant="contained" color="primary">
-            Agregar
+          <Button type="submit" variant="contained" color="inherit">
+            Add
           </Button>
         </Box>
         {/* Lista de tareas */}
         <List>
-          {tasks.map(task => {
-            const isFading = fadingTasks.includes(task.id)
-            return (
-              <ListItem
-                key={task.id}
-                sx={{
-                  mb: 1,
-                  borderRadius: 2,
-                  bgcolor: '#f9f9f9',
-                  boxShadow: 1,
-                  opacity: isFading ? 0 : 1,
-                  height: isFading ? 0 : 'auto',
-                  transition: 'opacity 0.4s, height 0.4s',
-                  overflow: 'hidden',
-                  ...(isFading ? { pointerEvents: 'none' } : {})
-                }}
-                secondaryAction={
-                  editingId === task.id ? null : (
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      {/* Botón para editar tarea */}
-                      <IconButton
-                        edge="end"
-                        color="primary"
-                        onClick={() => handleEdit(task.id, task.text)}
-                        sx={{ ml: 1, transition: 'background 0.2s', '&:hover': { background: '#1976d222' } }}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      {/* Botón para eliminar tarea */}
-                      <IconButton
-                        edge="end"
-                        color="error"
-                        onClick={() => deleteTask(task.id)}
-                        sx={{ ml: 1, transition: 'background 0.2s', '&:hover': { background: '#e5393522' } }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Box>
-                  )
-                }
-              >
-                {/* Checkbox para marcar tarea como completada y activar fade out */}
-                <Checkbox
-                  checked={task.completed}
-                  onChange={() => handleToggleFade(task.id)}
-                  sx={{ mr: 1 }}
-                />
-                {editingId === task.id ? (
-                  // Modo edición de tarea
-                  <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                    <TextField
-                      value={editText}
-                      onChange={e => setEditText(e.target.value)}
-                      size="small"
-                      sx={{ flex: 1, mr: 2 }}
-                    />
-                    {/* Guardar edición */}
+          {tasks.map(task => (
+            <ListItem
+              key={task.id}
+              sx={{
+                mb: 1,
+                borderRadius: 2,
+                bgcolor: '#f9f9f9',
+                boxShadow: 1,
+                transition: 'background 0.4s',
+                overflow: 'hidden',
+              }}
+              secondaryAction={
+                editingId === task.id ? null : (
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {/* Botón para editar tarea */}
                     <IconButton
                       edge="end"
-                      color="success"
-                      onClick={() => handleEditSubmit(task.id)}
-                      sx={{ ml: 1, transition: 'background 0.2s', '&:hover': { background: '#43a04722' } }}
+                      color="primary"
+                      onClick={() => handleEdit(task.id, task.text)}
+                      sx={{ ml: 1, transition: 'background 0.2s', '&:hover': { background: '#1976d222' } }}
                     >
-                      <SaveIcon />
+                      <EditIcon />
                     </IconButton>
-                    {/* Cancelar edición */}
+                    {/* Botón para eliminar tarea */}
                     <IconButton
                       edge="end"
                       color="error"
-                      onClick={() => setEditingId(null)}
+                      onClick={() => deleteTask(task.id)}
                       sx={{ ml: 1, transition: 'background 0.2s', '&:hover': { background: '#e5393522' } }}
                     >
-                      <CancelIcon />
+                      <DeleteIcon />
                     </IconButton>
                   </Box>
-                ) : (
-                  // Visualización normal de la tarea
-                  <Typography
-                    sx={{
-                      textDecoration: task.completed ? 'line-through' : 'none',
-                      flex: 1,
-                      ml: 1,
-                    }}
+                )
+              }
+            >
+              {/* Checkbox para marcar tarea como completada (tachada) */}
+              <Checkbox
+                checked={task.completed}
+                onChange={() => handleToggleCompleted(task.id)}
+                sx={{ mr: 1 }}
+              />
+              {editingId === task.id ? (
+                // Modo edición de tarea
+                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                  <TextField
+                    value={editText}
+                    onChange={e => setEditText(e.target.value)}
+                    size="small"
+                    sx={{ flex: 1, mr: 2 }}
+                  />
+                  {/* Guardar edición */}
+                  <IconButton
+                    edge="end"
+                    color="success"
+                    onClick={() => handleEditSubmit(task.id)}
+                    sx={{ ml: 1, transition: 'background 0.2s', '&:hover': { background: '#43a04722' } }}
                   >
-                    {task.text}
-                  </Typography>
-                )}
-              </ListItem>
-            )
-          })}
+                    <SaveIcon />
+                  </IconButton>
+                  {/* Cancelar edición */}
+                  <IconButton
+                    edge="end"
+                    color="error"
+                    onClick={() => setEditingId(null)}
+                    sx={{ ml: 1, transition: 'background 0.2s', '&:hover': { background: '#e5393522' } }}
+                  >
+                    <CancelIcon />
+                  </IconButton>
+                </Box>
+              ) : (
+                // Visualización normal de la tarea
+                <Typography
+                  sx={{
+                    background: task.completed ? 'transparent' : '#f5f5f5',
+                    borderRadius: 2,
+                    px: 2,
+                    py: 1,
+                    boxShadow: task.completed ? 0 : 1,
+                    color: task.completed ? 'text.disabled' : 'text.primary',
+                    fontWeight: task.completed ? 400 : 500,
+                    fontSize: '1.1rem',
+                    display: 'inline-block',
+                    textDecoration: task.completed ? 'line-through' : 'none',
+                    ml: 1,
+                    maxWidth: '70%',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    transition: 'all 0.3s',
+                  }}
+                >
+                  {task.text}
+                </Typography>
+              )}
+            </ListItem>
+          ))}
         </List>
       </CardContent>
     </Card>

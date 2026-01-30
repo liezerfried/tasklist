@@ -6,7 +6,6 @@ import About from './pages/About'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 
-
 // Renderiza las rutas principales de la app.
 function App() {
   return (

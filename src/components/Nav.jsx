@@ -16,7 +16,7 @@ const Nav = () => {
         marginTop: '4rem', // Más espacio arriba
       }}
     >
-      <ButtonGroup variant="contained" size='large' aria-label="navigation button group">
+      <ButtonGroup color="info" variant="contained" size='large' aria-label="navigation button group">
         <Button component={Link} to="/tasklist/home">
           Home
         </Button>
