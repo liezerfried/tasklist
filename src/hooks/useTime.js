@@ -1,3 +1,6 @@
+// Hook personalizado para obtener la hora actual en la zona horaria de Argentina.
+// Devuelve la hora actualizada cada segundo y maneja errores si la zona horaria no es soportada.
+// Uso: const { time, error } = useTime();
 // filepath: src/hooks/useTime.js
 import { useEffect, useState } from 'react';
 
@@ -14,7 +17,7 @@ export function useTime(timezone = 'America/Argentina/Buenos_Aires') {
         setTime(date.toLocaleTimeString('es-AR', options));
         setError(null);
       } catch {
-        setError('No se pudo obtener la hora');
+        setError('The time could not be obtained.');
       }
     }
     updateTime();

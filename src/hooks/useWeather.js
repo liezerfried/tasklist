@@ -1,3 +1,6 @@
+// Hook personalizado para obtener el clima actual según la ubicación del usuario.
+// Utiliza la API de Open-Meteo y maneja errores de geolocalización o red.
+// Uso: const { weather, error } = useWeather();
 import { useEffect, useState } from 'react';
 import { getWeather } from '../api/weatherApi';
 
@@ -13,14 +16,14 @@ export function useWeather() {
             const data = await getWeather(position.coords.latitude, position.coords.longitude);
             setWeather(data);
           } catch {
-            setError('No se pudo obtener el clima');
+            setError('The weather could not be retrieved. Please try again.');
           }
         },
-        () => setError('Ubicación no permitida')
+        () => setError('Location not allowed')
       );
     } else {
       // Avoid calling setState synchronously in the effect body
-      Promise.resolve().then(() => setError('Geolocalización no soportada'));
+      Promise.resolve().then(() => setError('Geolocation not supported'));
     }
   }, []);
 

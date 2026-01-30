@@ -1,3 +1,5 @@
+// Componente que muestra la información del clima actual usando el hook useWeather.
+// Muestra temperatura y código de clima según la ubicación del usuario.
 import { useWeather } from '../hooks/useWeather';
 
 const WeatherInfo = () => {

@@ -1,14 +1,19 @@
-// Página "Acerca de". Muestra información sobre la app y la navegación.
-import Nav from '../components/Nav';
 
-const About = () => {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh' }}>
-      <Nav />
-      {/* Aquí puedes agregar información sobre la aplicación o el autor */}
+import React from "react";
+import AboutInfo from "../components/AboutInfo";
+import Nav from "../components/Nav";
+import Footer from '../components/Footer';
+
+const About = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '100vh' }}>
+    <Nav />
+    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+    <AboutInfo />
     </div>
-  );
-};
+    <div className="footer-wrapper">
+      <Footer />
+    </div>
+  </div>
+);
 
-// Exporta la página About
 export default About;

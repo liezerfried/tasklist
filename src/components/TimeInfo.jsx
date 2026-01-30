@@ -1,3 +1,5 @@
+// Componente que muestra la hora actual usando el hook useTime.
+// Muestra la hora en la zona horaria de Argentina.
 import { useTime } from '../hooks/useTime';
 
 const TimeInfo = () => {

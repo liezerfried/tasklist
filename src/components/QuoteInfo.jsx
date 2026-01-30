@@ -1,58 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
-import { getRandomQuote } from '../api/zenQuotesApi';
+// Componente que muestra una frase motivacional aleatoria y permite cambiarla.
+// Utiliza Material UI para el diseño de la tarjeta y Emotion para estilos.
+// Las frases se obtienen de src/assets/quotes.js.
+import React, { useState } from "react";
+import quotes from "../assets/quotes";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { css } from "@emotion/react";
 
-const QuoteInfo = () => {
-	const [quote, setQuote] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+function QuoteInfo() {
+  const [quote, setQuote] = useState(() =>
+    quotes[Math.floor(Math.random() * quotes.length)]
+  );
 
-	const fetchQuote = async () => {
-		setLoading(true);
-		setError(null);
-		try {
-			const data = await getRandomQuote();
-			setQuote(data);
-		} catch {
-			setError('No se pudo obtener la frase. Intenta nuevamente.');
-		} finally {
-			setLoading(false);
-		}
-	};
+  const handleNewQuote = () => {
+    let newQuote;
+    do {
+      newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    } while (newQuote.q === quote.q && quotes.length > 1);
+    setQuote(newQuote);
+  };
 
-	useEffect(() => {
-		fetchQuote();
-	}, []);
-
-	return (
-		<Box display="flex" justifyContent="center" my={2}>
-			<Card sx={{ minWidth: 320, maxWidth: 500, boxShadow: 3 }}>
-				<CardContent>
-					{loading ? (
-						<Box display="flex" justifyContent="center" alignItems="center" minHeight={80}>
-							<CircularProgress />
-						</Box>
-					) : error ? (
-						<Typography color="error" align="center">{error}</Typography>
-					) : (
-						<>
-							<Typography variant="h6" align="center" gutterBottom>
-								"{quote.quote}"
-							</Typography>
-							<Typography variant="subtitle2" align="center" color="text.secondary">
-								— {quote.author}
-							</Typography>
-						</>
-					)}
-					<Box display="flex" justifyContent="center" mt={2}>
-						<Button variant="contained" color="primary" onClick={fetchQuote} disabled={loading}>
-							Nueva frase
-						</Button>
-					</Box>
-				</CardContent>
-			</Card>
-		</Box>
-	);
-};
+  return (
+    <Card
+      sx={{
+        maxWidth: 350,
+        margin: "32px auto",
+        background: "#f5f5f5",
+        boxShadow: 3,
+        borderRadius: 3,
+      }}
+    >
+      <CardContent>
+        <Typography
+          variant="h6"
+          component="p"
+          sx={{ fontStyle: "italic", marginBottom: 2 }}
+        >
+          "{quote.q}"
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          component="p"
+          sx={{ textAlign: "right", fontWeight: "bold", marginBottom: 2 }}
+        >
+          - {quote.a}
+        </Typography>
+        <Button
+          variant="contained"
+          color="inherit"
+          onClick={handleNewQuote}
+          css={css`
+            display: block;
+            margin: 0 auto;
+          `}
+        >
+          New quote
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default QuoteInfo;
