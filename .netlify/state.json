@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Córdoba",
+			"country": {
+				"code": "AR",
+				"name": "Argentina"
+			},
+			"subdivision": {
+				"code": "X",
+				"name": "Cordoba"
+			},
+			"timezone": "America/Argentina/Cordoba",
+			"latitude": -31.4057,
+			"longitude": -64.1849,
+			"postalCode": "5000"
+		},
+		"timestamp": 1769820517943
+	}
+}

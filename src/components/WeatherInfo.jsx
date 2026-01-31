@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 // WeatherInfo: muestra la temperatura actual usando weatherapi.com
 const WeatherInfo = () => {
-  const [temperature, setTemperature] = useState(null);
+  const [temperature] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -15,21 +15,10 @@ const WeatherInfo = () => {
       return;
     }
     navigator.geolocation.getCurrentPosition(
-      async (position) => {
+      async () => {
         try {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          const apiKey = import.meta.env.VITE_WEATHERAPI_KEY;
-          const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}&aqi=no`;
-          const res = await fetch(url);
-          const data = await res.json();
-          if (data.current && typeof data.current.temp_c === "number") {
-            setTemperature(data.current.temp_c);
-          } else if (data.error && data.error.message) {
-            setError(data.error.message);
-          } else {
-            setError("Weather data unavailable");
-          }
+          // Aquí deberías implementar la consulta al clima usando un backend seguro
+          setError("Weather API key removed. Implement backend proxy for weather data.");
         } catch {
           setError("Could not fetch weather");
         }

@@ -86,6 +86,12 @@
     padding: 6px 10px;
     font-size: 0.95rem;
   }
+  .footer-buttons {
+    flex-direction: row;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /* Móviles estándar (481px a 600px) */
@@ -101,9 +107,11 @@
     align-items: flex-start;
   }
   .footer-buttons {
-    flex-direction: column;
+    flex-direction: row;
     gap: 16px;
     margin-top: 0.5rem;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -249,7 +257,7 @@
     align-items: flex-start;
   }
   .footer-buttons {
-    flex-direction: column;
+    flex-direction: row;
     gap: 16px;
     margin-top: 0.5rem;
 
